@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "schools",
+  "info": {
+    "singularName": "school",
+    "pluralName": "schools",
+    "displayName": "school",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "unique": false
+    },
+    "name": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "class": {
+      "type": "string"
+    }
+  }
+}
