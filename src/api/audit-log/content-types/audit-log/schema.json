@@ -4,7 +4,8 @@
   "info": {
     "singularName": "audit-log",
     "pluralName": "audit-logs",
-    "displayName": "audit log"
+    "displayName": "audit log",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -37,6 +38,15 @@
     },
     "statusCode": {
       "type": "integer"
+    },
+    "collectionName": {
+      "type": "string"
+    },
+    "adminName": {
+      "type": "string"
+    },
+    "adminEmail": {
+      "type": "string"
     }
   }
 }

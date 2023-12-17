@@ -22,6 +22,24 @@ const getActionType = (method, path) => {
     if (method.toLowerCase() === "post" && path.includes("service-request")) {
         return "Created Service Request";
     }
+    if (method.toLowerCase() === "delete" && path.includes("content-manager")) {
+        return "Admin content delete";
+    }
+    if (method.toLowerCase() === "post" && path.includes("content-manager") && path.includes("bulkDelete")) {
+        return "Admin content bulk delete";
+    }
+    if (method.toLowerCase() === "post" && path.includes("content-manager") && path.includes("bulkUnpublish")) {
+        return "Admin content bulk unpublish";
+    }
+    if (method.toLowerCase() === "post" && path.includes("content-manager") && path.includes("unpublish")) {
+        return "Admin content unpublish";
+    }
+    if (method.toLowerCase() === "post" && path.includes("content-manager") && path.includes("bulkPublish")) {
+        return "Admin content bulk publish";
+    }
+    if (method.toLowerCase() === "post" && path.includes("content-manager") && path.includes("publish")) {
+        return "Admin content publish";
+    }
     if (method.toLowerCase() === "get" && path.includes("content-manager")) {
         return "Admin content View";
     }
@@ -30,6 +48,9 @@ const getActionType = (method, path) => {
     }
     if (method.toLowerCase() === "put" && path.includes("content-manager")) {
         return "Admin content update";
+    }
+    if (method.toLowerCase() === "put" && path.includes("content-type-builder")) {
+        return "Collection structure update";
     }
     if (method.toLowerCase() === "post" && path.includes("register")) {
         return "User Register";
@@ -48,7 +69,6 @@ module.exports = (config, { strapi }) => {
     return async (context, next) => {
         await next();
         try {
-            // console.log(strapi?.server.use, 'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
             let token = context?.request?.header?.authorization?.replace("Bearer ", "");
 
             if (!token) { return; }
@@ -56,10 +76,8 @@ module.exports = (config, { strapi }) => {
             // ignoring GET api calls
             if (token && context.request.method === "GET") { return; }
 
-            // console.log('Yayy!, audit middleware rocks!', context.state.user);
 
             const user = context.state.user;
-            const response = context.response;
 
             const entry = {
                 contentType: getContentType(context._matchedRoute),
@@ -76,7 +94,10 @@ module.exports = (config, { strapi }) => {
                 params: context.params,
                 request: context.request.body,
                 content: context.response.body,
-                // content: {},
+                collectionName: context.params?.model?.split("::")[1]?.split(".")[0],
+                adminEmail: user.email,
+                adminName: `${user.firstname} ${user.lastname}`,
+                publishedAt: new Date()
             };
 
             await strapi.entityService.create('api::audit-log.audit-log', {
@@ -87,16 +108,3 @@ module.exports = (config, { strapi }) => {
         }
     };
 };
-
-
-// module.exports = async (strapi) => {
-//     return {
-//         initialize() {
-//             strapi.app.use(async (ctx, next) => {
-//                 await next();
-//                 //   await strapi.info("Yayy!, audit middleware rocks!")
-//                 console.log("Yayy!, audit middleware rocks!")
-//             });
-//         }
-//     }
-// };
