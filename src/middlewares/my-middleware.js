@@ -65,6 +65,20 @@ const getActionType = (method, path) => {
             return "collection delete";
         }
     }
+    if (path?.includes("/upload/actions/bulk-delete")) {
+        if (method.toLowerCase() === "post") {
+            return "media bulk delete";
+        }
+    }
+
+    if (path?.includes("/upload")) {
+        if (method.toLowerCase() === "post") {
+            return "media add/upload";
+        }
+        if (method.toLowerCase() === "delete") {
+            return "media delete";
+        }
+    }
 
     if (method.toLowerCase() === "post" && path.includes("register")) {
         return "User Register";
