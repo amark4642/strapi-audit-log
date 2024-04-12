@@ -4,7 +4,8 @@
   "info": {
     "singularName": "plan",
     "pluralName": "plans",
-    "displayName": "plan"
+    "displayName": "plan",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,14 +16,20 @@
       "type": "string"
     },
     "banner": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "slug": {
+      "type": "string",
+      "regex": "^[a-zA-Z-]{1,}$",
+      "required": true
     }
   }
 }
